@@ -1,0 +1,8 @@
+{
+  "name": "codeshow-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite",
+  "id": "6e8e955a"
+}
