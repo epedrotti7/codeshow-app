@@ -17,6 +17,7 @@
 
             <ion-col size="12" class="ion-text-center input-style">
               <IonItem class="input-item">
+                <!-- eslint-disable-next-line vue/no-deprecated-slot-attribute -->
                 <IonIcon :icon="mailOutline" slot="start" class="input-icon"/>
                 <input type="text" placeholder="Email" class="input-field">
               </IonItem>
@@ -24,6 +25,7 @@
 
             <ion-col size="12" class="ion-text-center input-style">
               <IonItem class="input-item">
+                <!-- eslint-disable-next-line vue/no-deprecated-slot-attribute -->
                 <IonIcon :icon="lockClosedOutline" slot="start" class="input-icon"/>
                 <input type="password" placeholder="Senha" class="input-field">
               </IonItem>

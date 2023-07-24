@@ -6,3 +6,5 @@ ionic build
 npx cap add android
 
 ionic cap run android -l --external
+
+ionic serve

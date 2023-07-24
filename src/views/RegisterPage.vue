@@ -17,6 +17,13 @@
 
             <ion-col size="12" class="ion-text-center input-style">
               <IonItem class="input-item">
+                <IonIcon :icon="peopleOutline" slot="start" class="input-icon" />
+                <input type="text" placeholder="Nome" class="input-field">
+              </IonItem>
+            </ion-col>
+
+            <ion-col size="12" class="ion-text-center input-style">
+              <IonItem class="input-item">
                 <IonIcon :icon="mailOutline" slot="start" class="input-icon" />
                 <input type="text" v-model="email" @blur="validateEmail" placeholder="Email" class="input-field">
                 <p v-if="emailError" class="error-text">{{ emailError }}</p>
@@ -39,7 +46,7 @@
             </ion-col>
 
             <ion-col size="12" class="ion-text-center button-style">
-              <CustomButton texto="Entrar" :icon="logInOutline" />
+              <CustomButton texto="Criar conta" :icon="logInOutline" />
             </ion-col>
           </ion-row>
 
@@ -52,7 +59,7 @@
 <script setup lang="ts">
 import { IonPage, IonContent, IonGrid, IonRow, IonCol, IonItem, IonIcon } from '@ionic/vue';
 import { ref, onMounted } from 'vue';
-import { mailOutline, lockClosedOutline } from 'ionicons/icons';
+import { mailOutline, lockClosedOutline, peopleOutline } from 'ionicons/icons';
 
 import Image from '@/components/Image.vue';
 import IconBack from '@/components/IconBack.vue';
@@ -116,7 +123,7 @@ defineExpose({
 }
 
 .image-style {
-  margin-top: 120px;
+  margin-top: 60px;
   padding-bottom: 10px;
 }
 

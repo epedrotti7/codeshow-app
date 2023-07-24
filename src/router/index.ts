@@ -3,6 +3,11 @@ import { RouteRecordRaw } from 'vue-router';
 import MainPage from '../views/MainPage.vue'
 import LoginPage from '../views/LoginPage.vue'
 import RegisterPage from '../views/RegisterPage.vue'
+import TabsPage from '../views/TabsPage.vue'
+import PlayPage from '../views/PlayPage.vue'
+import ScorePage from '../views/ScorePage.vue'
+import PerfilPage from '../views/PerfilPage.vue'
+import HistoryPage from '../views/HistoryPage.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -21,23 +26,32 @@ const routes: Array<RouteRecordRaw> = [
     path: '/register',
     component: RegisterPage
   },
-
-    // {
-  //   path: '/tabs/',
-  //   component: TabsPage,
-
-  //   children: [
-  //     {
-  //       path: '',
-  //       redirect: '/tabs/tab1'
-  //     },
-  //     {
-  //       path: 'tab1',
-  //       component: () => import('@/views/LoginPage.vue')
-  //     },
-  //   ]
-
-  // }
+  {
+    path: '/tabs',
+    component: TabsPage,
+    children: [
+      {
+        path: '',
+        redirect: '/tabs/playpage'
+      },
+      {
+        path: 'playpage',
+        component: PlayPage
+      },
+      {
+        path: 'scorepage',
+        component: ScorePage
+      },
+      {
+        path: 'perfilpage',
+        component: PerfilPage
+      },
+      {
+        path: 'historypage',
+        component: HistoryPage
+      },
+    ]
+  },
 ]
 
 const router = createRouter({
@@ -46,4 +60,3 @@ const router = createRouter({
 })
 
 export default router
-
