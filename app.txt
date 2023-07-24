@@ -1,0 +1,8 @@
+instalar o android studio
+instalar o java
+
+npm install @capacitor/android
+ionic build
+npx cap add android
+
+ionic cap run android -l --external
