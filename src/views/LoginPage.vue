@@ -17,15 +17,14 @@
 
             <ion-col size="12" class="ion-text-center input-style">
               <IonItem class="input-item">
-                <!-- eslint-disable-next-line vue/no-deprecated-slot-attribute -->
-                <IonIcon :icon="mailOutline" slot="start" class="input-icon"/>
-                <input type="text" placeholder="Email" class="input-field">
+                <IonIcon :icon="mailOutline" slot="start" class="input-icon" />
+                <input type="text" v-model="email" @blur="validateEmail" placeholder="Email" class="input-field">
+                <p v-if="emailError" class="error-text">{{ emailError }}</p>
               </IonItem>
             </ion-col>
 
             <ion-col size="12" class="ion-text-center input-style">
               <IonItem class="input-item">
-                <!-- eslint-disable-next-line vue/no-deprecated-slot-attribute -->
                 <IonIcon :icon="lockClosedOutline" slot="start" class="input-icon"/>
                 <input type="password" placeholder="Senha" class="input-field">
               </IonItem>
@@ -36,8 +35,9 @@
             </ion-col>
 
             <ion-col size="12" class="ion-text-center button-style">
-              <CustomButton texto="Entrar" :icon="logInOutline" />
+              <CustomButton @click="createSession" texto="Entrar" :icon="logInOutline" />
             </ion-col>
+
           </ion-row>
 
         </ion-grid>
@@ -58,12 +58,41 @@ import CustomButton from '@/components/Button.vue';
 import logInOutline from '../../public/log-in-outline.svg'
 import arrowBack from '../../public/arrow-back.svg'
 
-import { onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { StatusBar } from '@capacitor/status-bar';
+import { useRouter } from 'vue-router';
+import axios from 'axios';
+import store from '@/store';
 
 onMounted(() => {
   StatusBar.setOverlaysWebView({ overlay: true });
 });
+
+let email = ref('');
+let emailError = ref('');
+let password = ref('');
+
+function validateEmail() {
+  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  if (!re.test(String(email.value).toLowerCase())) {
+    emailError.value = 'Por favor, insira um email válido';
+  } else {
+    emailError.value = '';
+  }
+}
+
+const router = useRouter();
+
+async function createSession() {
+    const response = await axios.post('http://localhost:3000/api/v1/session', {
+      email: String(email.value),
+      password: String(password.value)
+    });
+
+    store.dispatch('setUser', response.data)
+    router.push('/tabs/playpage');
+}
+
 </script>
 
 <style scoped>
@@ -117,6 +146,11 @@ onMounted(() => {
 .input-field::placeholder {
   font-family: 'Cherry Cream Soda', cursive;
   color: #16CE92;
+}
+
+.error-text {
+  color: red;
+  font-size: 0.8rem;
 }
 
 .input-field:focus {

@@ -3,7 +3,6 @@
     <ion-content :fullscreen="true">
       <div class="custom-bg">
         <ion-grid>
-
           <ion-row class="icon-row">
             <ion-col size="12" class="ion-text-center">
               <IconBack :iconSource="arrowBack" />
@@ -18,7 +17,7 @@
             <ion-col size="12" class="ion-text-center input-style">
               <IonItem class="input-item">
                 <IonIcon :icon="peopleOutline" slot="start" class="input-icon" />
-                <input type="text" placeholder="Nome" class="input-field">
+                <input type="text" v-model="name" placeholder="Digite seu Nick" class="input-field">
               </IonItem>
             </ion-col>
 
@@ -46,7 +45,7 @@
             </ion-col>
 
             <ion-col size="12" class="ion-text-center button-style">
-              <CustomButton texto="Criar conta" :icon="logInOutline" />
+              <CustomButton @click="createUser" texto="Criar conta" :icon="logInOutline" />
             </ion-col>
           </ion-row>
 
@@ -60,16 +59,17 @@
 import { IonPage, IonContent, IonGrid, IonRow, IonCol, IonItem, IonIcon } from '@ionic/vue';
 import { ref, onMounted } from 'vue';
 import { mailOutline, lockClosedOutline, peopleOutline } from 'ionicons/icons';
-
+import axios from 'axios';
 import Image from '@/components/Image.vue';
 import IconBack from '@/components/IconBack.vue';
-
 import CustomButton from '@/components/Button.vue';
 import logInOutline from '../../public/log-in-outline.svg'
 import arrowBack from '../../public/arrow-back.svg'
-
 import { StatusBar } from '@capacitor/status-bar';
+import { useRouter } from 'vue-router';
+import store from '@/store';
 
+let name = ref('');
 let email = ref('');
 let password = ref('');
 let confirmPassword = ref('');
@@ -93,11 +93,25 @@ function validatePasswords() {
   }
 }
 
+const router = useRouter();
+
+async function createUser() {
+    const response = await axios.post('http://localhost:3000/api/v1/user', {
+      name: String(name.value),
+      email: String(email.value),
+      password: String(password.value)
+    });
+
+    store.dispatch('setUser', response.data)
+    router.push('/tabs/playpage');
+}
+
 onMounted(() => {
   StatusBar.setOverlaysWebView({ overlay: true });
 });
 
 defineExpose({
+  name,
   email,
   password,
   confirmPassword,
@@ -105,9 +119,9 @@ defineExpose({
   passwordError,
   validateEmail,
   validatePasswords,
+  createUser,
 });
 </script>
-
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Cherry+Cream+Soda&display=swap');
